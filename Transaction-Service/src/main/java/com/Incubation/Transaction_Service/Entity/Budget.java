@@ -2,7 +2,7 @@ package com.Incubation.Transaction_Service.Entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Category {
+public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer categoryId;
@@ -10,16 +10,16 @@ public class Category {
     private Long categoryBudget;
     private boolean enabled;
 
-    public Category() {
+    public Budget() {
     }
 
-    public Category(String categoryName, Long categoryBudget, boolean enabled) {
+    public Budget(String categoryName, Long categoryBudget, boolean enabled) {
         this.categoryName = categoryName;
         this.categoryBudget = categoryBudget;
         this.enabled = enabled;
     }
 
-    public Category(Integer categoryId, String categoryName, Long categoryBudget, boolean enabled) {
+    public Budget(Integer categoryId, String categoryName, Long categoryBudget, boolean enabled) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryBudget = categoryBudget;

@@ -2,9 +2,10 @@ package com.Incubation.Transaction_Service.Service;
 import com.Incubation.Transaction_Service.Dtos.TransactionResponseDto;
 import com.Incubation.Transaction_Service.Entity.Transaction;
 import com.Incubation.Transaction_Service.Repo.TransactionRepository;
+import com.Incubation.Transaction_Service.feign.TransactionFeignInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -14,18 +15,54 @@ public class TransactionService {
     TransactionRepository transactionRepository;
 
     @Autowired
-    CategoryService categoryService;
+    TransactionFeignInterface transactionFeignInterface;
+
+    @Autowired
+    BudgetService budgetService;
 
     public TransactionResponseDto addTransaction(Transaction transaction)
     {
 //        Transaction transaction = TransactionRequestDtoToTransaction(transactionRequestDto);
-            transactionRepository.save(transaction);
+            if (Objects.equals(transaction.getTransactionType().toUpperCase(), "INCOME")) {
+                    Optional<Transaction> checkTransaction = transactionRepository.findByUserNameAndTransactionType(transaction.getUserName(),"INCOME");
+                    if(checkTransaction.isPresent()){
+                        Transaction existingTransaction = checkTransaction.get();
+                        existingTransaction.setAmount(existingTransaction.getAmount()+transaction.getAmount());
+                        existingTransaction.setDate(LocalDate.now());
+                        existingTransaction.setTransactionType("INCOME");
+                        transactionRepository.save(existingTransaction);
+                    }
+                    else{
+                        transaction.setDate(LocalDate.now());
+                        transaction.setTransactionType("INCOME");
+                        transactionRepository.save(transaction);
+                    }
+//                Long updatedBal = transactionFeignInterface.addBalance(transaction.getUserName(), "ADD", transaction.getAmount());
+//                Long updatedBal = transactionFeignInterface.getBalance1(transaction.getUserName());
+            }
+            else{
+                transaction.setDate(LocalDate.now());
+                transactionRepository.save(transaction);
+            }
             return transactionToTransactionResponseDto(transaction);
     }
 
-    public List<TransactionResponseDto> getAllTransactions()  {
+
+    public Double getIncome(String userName)
+    {
+        Optional<Transaction> checkTransaction = transactionRepository.findByUserNameAndTransactionType(userName,"INCOME");
+        if(checkTransaction.isPresent()){
+            Transaction existingTransaction = checkTransaction.get();
+            return existingTransaction.getAmount();
+        }
+        else{
+            return 0D;
+        }
+
+    }
+    public List<TransactionResponseDto> getAllTransactions(String name)  {
         List<TransactionResponseDto> transactionResponseDtoList = new ArrayList<>();
-        List<Transaction> transactions = transactionRepository.findAll();
+        List<Transaction> transactions = transactionRepository.findByUserName(name);
         for (Transaction transaction: transactions) {
             transactionResponseDtoList.add(transactionToTransactionResponseDto(transaction));
         }
@@ -47,7 +84,7 @@ private TransactionResponseDto transactionToTransactionResponseDto(Transaction t
 
     return new TransactionResponseDto(
             transaction.getTransactionId(),
-            categoryService.getCategoryById(transaction.getCategoryId()).getCategoryName(),
+            transaction.getCategory(),
             transaction.getTransactionType(),
             transaction.getDescription(),
             transaction.getAmount(),

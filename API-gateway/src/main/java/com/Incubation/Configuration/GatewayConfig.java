@@ -56,16 +56,16 @@ public class GatewayConfig {
 //        return new CorsWebFilter(source);
 //    }
 //
-//    private UrlBasedCorsConfigurationSource corsConfigurationSource() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//
-//        config.addAllowedOrigin("http://localhost:3000"); // Allow the frontend origin
-//        config.addAllowedHeader("*"); // Allow all headers
-//        config.addAllowedMethod("*"); // Allow all methods (GET, POST, etc.)
-//        config.setAllowCredentials(true); // Allow credentials (like cookies)
-//
-//        source.registerCorsConfiguration("/**", config);
-//        return source;
-//    }
+    private UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+
+        config.addAllowedOrigin("http://localhost:3000"); // Allow the frontend origin
+        config.addAllowedHeader("*"); // Allow all headers
+        config.addAllowedMethod("*"); // Allow all methods (GET, POST, etc.)
+        config.setAllowCredentials(true); // Allow credentials (like cookies)
+
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 }

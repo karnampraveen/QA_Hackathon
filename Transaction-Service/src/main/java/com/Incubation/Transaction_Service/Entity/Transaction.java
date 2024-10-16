@@ -12,11 +12,11 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
-    private Integer userId;
-    private Integer categoryId;
+    private String userName;
+    private String category;
     private String description;
     private String transactionType;
-    private double amount;
+    private Double amount;
     private LocalDate date;
 
     public Transaction() {
@@ -30,20 +30,20 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserId(String userName) {
+        this.userName = userName;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryId(String category) {
+        this.category = category;
     }
 
     public String getDescription() {
@@ -62,11 +62,11 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -78,9 +78,9 @@ public class Transaction {
         this.date = date;
     }
 
-    public Transaction(Integer userId, Integer categoryId, String description, String transactionType, double amount) {
-        this.userId = userId;
-        this.categoryId = categoryId;
+    public Transaction(String userName, String category, String description, String transactionType, Double amount) {
+        this.userName = userName;
+        this.category = category;
         this.description = description;
         this.transactionType = transactionType;
         this.amount = amount;

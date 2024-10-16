@@ -151,7 +151,7 @@ public class UsersManagementService {
     public Long updateBalance(String name, String operator, Long amount) {
         ReqRes reqRes = new ReqRes();
         OurUsers usersByName = usersRepo.findByName(name).get();
-        usersByName.setAccountBalance(Objects.equals(operator, "ADD") ? usersByName.getAccountBalance() + amount : usersByName.getAccountBalance() - amount);
+        usersByName.setAccountBalance(Objects.equals(operator, "ADD") ? usersByName.getAccountBalance() + amount : 0);
         OurUsers ourUsersResult = usersRepo.save(usersByName);
         return ourUsersResult.getAccountBalance();
     }
