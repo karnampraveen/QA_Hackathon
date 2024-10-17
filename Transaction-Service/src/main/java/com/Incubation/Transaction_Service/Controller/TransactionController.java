@@ -26,10 +26,17 @@ public class TransactionController {
     public Double getIncome(@Param("username") String name) {
         return transactionService.getIncome(name);
     }
+
     @PostMapping("/new")
     public TransactionResponseDto addTransaction(@RequestBody Transaction transaction)
     {
         return transactionService.addTransaction(transaction);
+    }
+
+    @DeleteMapping("/delete")
+    public TransactionResponseDto deleteTransaction(@RequestBody Transaction transaction)
+    {
+        return transactionService.deleteTransaction(transaction);
     }
 
 }

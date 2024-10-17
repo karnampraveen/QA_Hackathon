@@ -14,4 +14,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findByUserName(String name);
 
     Optional<Transaction> findByUserNameAndTransactionType(String name, String transactionType);
+
+    Optional<List<Transaction>> findByUserNameAndCategory(String name, String category);
 }
+

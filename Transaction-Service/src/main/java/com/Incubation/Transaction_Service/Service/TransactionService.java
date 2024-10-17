@@ -47,6 +47,27 @@ public class TransactionService {
             return transactionToTransactionResponseDto(transaction);
     }
 
+    public TransactionResponseDto deleteTransaction(Transaction transaction)
+    {
+//        Transaction transaction = TransactionRequestDtoToTransaction(transactionRequestDto);
+        if (Objects.equals(transaction.getTransactionType().toUpperCase(), "INCOME")) {
+            Optional<Transaction> checkTransaction = transactionRepository.findByUserNameAndTransactionType(transaction.getUserName(),"INCOME");
+            if(checkTransaction.isPresent()){
+                Transaction existingTransaction = checkTransaction.get();
+                transactionRepository.deleteById(existingTransaction.getTransactionId());
+            }
+        }
+        else{
+            Optional<List<Transaction>> checkTransaction = transactionRepository.findByUserNameAndCategory(transaction.getUserName(), transaction.getCategory());
+            if(checkTransaction.isPresent()){
+                List<Transaction> existingTransaction = checkTransaction.get();
+                for(Transaction transactionToDelete : existingTransaction) {
+                    transactionRepository.deleteById(transactionToDelete.getTransactionId());
+                }
+            }
+        }
+        return transactionToTransactionResponseDto(transaction);
+    }
 
     public Double getIncome(String userName)
     {

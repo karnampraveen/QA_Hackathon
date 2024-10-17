@@ -10,15 +10,21 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/goals")
+@RequestMapping("/quests")
 public class QuestController {
     @Autowired
     private GoalsService goalsService;
 
-    @GetMapping("/getAll")
-    public List<Goals> getAllCategories(@Param("userName") String userName) {
-        return goalsService.getCategories(userName);
+    @GetMapping("/getActive")
+    public List<Goals> getActive(@Param("userName") String userName) {
+        return goalsService.getActive(userName);
     }
+
+    @GetMapping("/getCompleted")
+    public List<Goals> getCompleted(@Param("userName") String userName) {
+        return goalsService.getActive(userName);
+    }
+
 
     @PostMapping("/new")
     public Goals addNewCategory(@Param("userName") String userName, @Param("goalName") String goalName, @Param("target") Long target)
