@@ -58,12 +58,12 @@ public class TransactionService {
             }
         }
         else{
-            Optional<List<Transaction>> checkTransaction = transactionRepository.findByUserNameAndCategory(transaction.getUserName(), transaction.getCategory());
+            Optional<Transaction> checkTransaction = transactionRepository.findById(transaction.getTransactionId());
             if(checkTransaction.isPresent()){
-                List<Transaction> existingTransaction = checkTransaction.get();
-                for(Transaction transactionToDelete : existingTransaction) {
-                    transactionRepository.deleteById(transactionToDelete.getTransactionId());
-                }
+                Transaction existingTransaction = checkTransaction.get();
+//                for(Transaction transactionToDelete : existingTransaction) {
+                    transactionRepository.deleteById(existingTransaction.getTransactionId());
+//                }
             }
         }
         return transactionToTransactionResponseDto(transaction);

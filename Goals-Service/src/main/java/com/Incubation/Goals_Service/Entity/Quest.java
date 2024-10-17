@@ -12,24 +12,29 @@ public class Quest {
     private Integer questId;
     private String userName;
     private String questName;
-    private String status;
-    private boolean enabled;
+    private Boolean completed;
+    private Boolean enabled;
 
     public Quest() {
     }
 
-    public Quest(Integer questId, String userName, String questName, String status, boolean enabled) {
+    public Quest(Integer questId, String userName, String questName, Boolean completed , Boolean enabled) {
         this.questId = questId;
         this.userName = userName;
         this.questName = questName;
-        this.status = status;
+        this.completed = completed;
         this.enabled = enabled;
     }
 
-    public Quest(String userName, String questName, String status, boolean enabled) {
+    public Quest(String userName, String questName) {
         this.userName = userName;
         this.questName = questName;
-        this.status = status;
+    }
+
+    public Quest(String userName, String questName, Boolean completed, Boolean enabled) {
+        this.userName = userName;
+        this.questName = questName;
+        this.completed = completed;
         this.enabled = enabled;
     }
 
@@ -57,19 +62,19 @@ public class Quest {
         this.questName = questName;
     }
 
-    public String getStatus() {
-        return status;
+    public Boolean getCompleted() {
+        return completed;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
     }
 
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 }

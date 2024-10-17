@@ -1,6 +1,7 @@
 package com.Incubation.Goals_Service.Controller;
 
 import com.Incubation.Goals_Service.Entity.Goals;
+import com.Incubation.Goals_Service.Entity.Quest;
 import com.Incubation.Goals_Service.Service.GoalsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -15,35 +16,28 @@ public class QuestController {
     @Autowired
     private GoalsService goalsService;
 
-    @GetMapping("/getActive")
-    public List<Goals> getActive(@Param("userName") String userName) {
-        return goalsService.getActive(userName);
+    @GetMapping("/getAll")
+    public List<Quest> getAll(@Param("userName") String userName) {
+        return goalsService.getAll(userName);
     }
-
-    @GetMapping("/getCompleted")
-    public List<Goals> getCompleted(@Param("userName") String userName) {
-        return goalsService.getActive(userName);
-    }
-
 
     @PostMapping("/new")
-    public Goals addNewCategory(@Param("userName") String userName, @Param("goalName") String goalName, @Param("target") Long target)
+    public Quest addNewCategory(@RequestBody Quest quest)
     {
-        return goalsService.addNewCategory(userName, goalName, target);
+        return goalsService.addQuest(quest);
     }
 
     @PutMapping("/update")
-    public Goals updateCategory(@RequestParam ("userName") String userName,
-                                @RequestParam("oldGoalName") String oldGoalName, @RequestParam("newGoalName") String newGoalName, @RequestParam("target") Long target, @RequestParam("enabled") Boolean enabled)
+    public Boolean updateQuest(@RequestParam ("userName") String userName,
+                                @RequestParam("questName") String questName, @RequestParam("completed") Boolean completed)
     {
-        return goalsService.updateCategory(userName, oldGoalName, newGoalName, target, enabled);
+        return goalsService.updateQuest(userName, questName, completed);
     }
 
-    @PutMapping("/addSaving")
-    public Goals addSaving(@RequestParam ("userName") String userName,
-                                @RequestParam("GoalName") String GoalName, @RequestParam("amount") Long amount)
+    @DeleteMapping("/delete")
+    public Boolean deleteQuest(@RequestParam ("userName") String userName, @RequestParam("questName") String questName)
     {
-        return goalsService.addSaving(userName, GoalName,  amount);
+        return transactionService.deleteQuest(userName,questName);
     }
 
 }

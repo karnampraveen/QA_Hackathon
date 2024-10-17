@@ -87,5 +87,12 @@ public class Transaction {
         this.date = LocalDate.now();
     }
 
-
+    public Transaction(Long transactionId, String userName, String category, String description, String transactionType, Double amount) {
+        this.transactionId = transactionId;
+        this.userName = userName;
+        this.category = category;
+        this.description = description;
+        this.transactionType = transactionType;
+        this.amount = amount;
+    }
 }
