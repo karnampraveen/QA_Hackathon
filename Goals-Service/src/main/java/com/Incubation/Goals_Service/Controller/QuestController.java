@@ -3,6 +3,7 @@ package com.Incubation.Goals_Service.Controller;
 import com.Incubation.Goals_Service.Entity.Goals;
 import com.Incubation.Goals_Service.Entity.Quest;
 import com.Incubation.Goals_Service.Service.GoalsService;
+import com.Incubation.Goals_Service.Service.QuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
@@ -14,30 +15,30 @@ import java.util.List;
 @RequestMapping("/quests")
 public class QuestController {
     @Autowired
-    private GoalsService goalsService;
+    private QuestService questService;
 
     @GetMapping("/getAll")
     public List<Quest> getAll(@Param("userName") String userName) {
-        return goalsService.getAll(userName);
+        return questService.getAll(userName);
     }
 
     @PostMapping("/new")
-    public Quest addNewCategory(@RequestBody Quest quest)
+    public Quest addQuest(@RequestBody Quest quest)
     {
-        return goalsService.addQuest(quest);
+        return questService.addQuest(quest);
     }
 
     @PutMapping("/update")
-    public Boolean updateQuest(@RequestParam ("userName") String userName,
-                                @RequestParam("questName") String questName, @RequestParam("completed") Boolean completed)
+    public Boolean updateQuest(@RequestParam ("questId") Integer questId,
+                                 @RequestParam("completed") Boolean completed)
     {
-        return goalsService.updateQuest(userName, questName, completed);
+        return questService.updateQuest(questId, completed);
     }
 
     @DeleteMapping("/delete")
-    public Boolean deleteQuest(@RequestParam ("userName") String userName, @RequestParam("questName") String questName)
+    public Boolean deleteQuest(@RequestParam ("questId") Integer questId)
     {
-        return transactionService.deleteQuest(userName,questName);
+        return questService.deleteQuest(questId);
     }
 
 }
