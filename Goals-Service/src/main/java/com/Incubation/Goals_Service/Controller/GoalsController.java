@@ -41,4 +41,11 @@ public class GoalsController {
                            @RequestParam("amount") Long amount) {
         return goalsService.addSaving(userName, GoalName, amount);
     }
+
+    @DeleteMapping("/delete")
+    public Boolean deleteGoal(@RequestParam ("goalId") Integer goalId)
+    {
+        return goalsService.deleteGoal(goalId);
+    }
+
 }

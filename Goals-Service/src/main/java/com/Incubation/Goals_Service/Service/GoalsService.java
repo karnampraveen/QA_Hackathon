@@ -55,4 +55,11 @@ public class GoalsService {
         return goals;
     }
 
+    public Boolean deleteGoal(Integer goalId){
+
+        goalsRepository.deleteById(goalId);
+        return true;
+    }
+
+
 }

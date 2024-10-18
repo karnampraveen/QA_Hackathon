@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
 public class GatewayConfig {
@@ -35,6 +37,18 @@ public class GatewayConfig {
         return new CorsWebFilter(source);
     }
 
+    @Bean
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        http
+                .csrf().disable()
+                .authorizeExchange()
+                .pathMatchers("/users/login", "/users/status").permitAll() // Allow login and status without authentication
+                .anyExchange().permitAll() // Ensure all other endpoints are also allowed
+                .and()
+                .httpBasic().disable()
+                .formLogin().disable();
+        return http.build();
+    }
 //    @Bean
 //    public CorsWebFilter corsFilter() {
 //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
