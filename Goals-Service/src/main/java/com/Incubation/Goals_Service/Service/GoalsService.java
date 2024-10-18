@@ -24,30 +24,28 @@ public class GoalsService {
         return goalsRepository.findById(id).get();
     }
 
-    public Goals addNewCategory(String userName, String goalName, Long target)
-    {
-
-        Goals goal = new Goals(
-                userName,
-                goalName,
-                target,
-                0L,
-                true
+    public Goals addNewCategory(Goals goal) {
+        Goals newGoal = new Goals(
+                goal.getUserName(),
+                goal.getGoalName(),
+                goal.getTarget(),
+                0L,  // Default value for saved
+                true // Default value for enabled
         );
-
-            goalsRepository.save(goal);
-            return goal;
+        goalsRepository.save(newGoal);
+        return newGoal;
     }
 
-    public Goals updateCategory(String userName, String oldGoalName, String newGoalName, Long target, Boolean enabled){
-
-        Goals goals = goalsRepository.findByUserNameIgnoreCaseAndGoalNameIgnoreCase(userName,oldGoalName);
+    public Goals updateCategory(String userName, String oldGoalName, String newGoalName, Long target, Boolean enabled, Long saved) {
+        Goals goals = goalsRepository.findByUserNameIgnoreCaseAndGoalNameIgnoreCase(userName, oldGoalName);
         goals.setGoalName(newGoalName);
         goals.setTarget(target);
         goals.setEnabled(enabled);
+        goals.setSaved(saved);  // Set the new saved value
         goalsRepository.save(goals);
-            return goals;
+        return goals;
     }
+
 
     public Goals addSaving(String userName, String GoalName, Long amount){
 
